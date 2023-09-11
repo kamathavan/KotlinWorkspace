@@ -12,15 +12,7 @@ fun simple(): Flow<String> = flow {
 }
 
 fun main() = runBlocking<Unit> {
-    rollNumber().zip(names()) { roll, name ->
-        "Roll number $roll is of name is $name"
-    }.collect {
-        println(it)
-    }
-
-    println("-------------Sample testing------------ ")
-
-    simple().collect {
+    (1..3).asFlow().flatMapConcat { flowTest(it) }.collect {
         println(it)
     }
 }
