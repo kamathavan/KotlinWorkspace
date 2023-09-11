@@ -18,7 +18,8 @@ fun main() = runBlocking<Unit> {
         println(it)
     }
 
-    println("Sample testing ")
+    println("-------------Sample testing------------ ")
+
     simple().collect {
         println(it)
     }
