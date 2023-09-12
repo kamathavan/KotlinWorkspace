@@ -1,5 +1,10 @@
+import SealedClasses.ConstValueExp
+import SealedClasses.Exp
+import SealedClasses.Expression
+import SealedClasses.Sum
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.runBlocking
+import java.lang.IllegalStateException
 
 fun rollNumber(): Flow<Int> = (1..4).asFlow()
 
@@ -13,16 +18,32 @@ fun simple(): Flow<String> = flow {
 
 fun main() = runBlocking<Unit> {
 
-    // simple Swap function
-    val list = mutableListOf(1, 2, 3)
-    list.swap(0, 2)
+    evaluateNormalClasses(ConstValueExp(5))
+    evaluateNormalClasses(Sum(4, 5))
+    //evaluateNormalClasses(Exp())
 
-    for (i in list) {
-        println("simple-->$i")
-    }
-
+    println("Evaluate sealed classed")
+    evaluateSealedClasses(Expression.ConstantExpression("This is constant expression"))
+    evaluateSealedClasses(Expression.StatementExpression("This is constant expression"))
+    evaluateSealedClasses(Expression.LoadingExpression)
 }
 
+fun evaluateNormalClasses(expression: Exp) {
+    when (expression) {
+        is ConstValueExp -> println("It is constant value---> $expression.value")
+        is Sum -> println("It is sum of the value---> ${expression.left + expression.right}")
+        else -> throw IllegalStateException("Unknown class exceptions-------->")
+    }
+}
+
+fun evaluateSealedClasses(expression: Expression) {
+    when (expression) {
+        is Expression.ConstantExpression -> println("This is statement Expression.ConstantExpression --->")
+        is Expression.StatementExpression -> println("This is statement Expression.StatementExpression --->")
+        is Expression.LoadingExpression -> println("This is loading status")
+        else -> println("something unknown value printed here")
+    }
+}
 
 
 
