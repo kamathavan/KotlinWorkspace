@@ -12,9 +12,15 @@ fun simple(): Flow<String> = flow {
 }
 
 fun main() = runBlocking<Unit> {
-    (1..3).asFlow().flatMapConcat { flowTest(it) }.collect {
-        println(it)
+
+    // simple Swap function
+    val list = mutableListOf(1, 2, 3)
+    list.swap(0, 2)
+
+    for (i in list) {
+        println("simple-->$i")
     }
+
 }
 
 
