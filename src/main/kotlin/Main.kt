@@ -1,7 +1,4 @@
-import SealedClasses.ConstValueExp
-import SealedClasses.Exp
-import SealedClasses.Expression
-import SealedClasses.Sum
+import SealedClasses.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.runBlocking
 import java.lang.IllegalStateException
@@ -26,6 +23,13 @@ fun main() = runBlocking<Unit> {
     evaluateSealedClasses(Expression.ConstantExpression("This is constant expression"))
     evaluateSealedClasses(Expression.StatementExpression("This is constant expression"))
     evaluateSealedClasses(Expression.LoadingExpression)
+
+    println("Evaluate sealed classed for Error state classes")
+
+    evaluateErrorState(CommonError)
+    evaluateErrorState(DataBaseError(dataError = 100))
+    evaluateErrorState(APIError(code = 101))
+
 }
 
 fun evaluateNormalClasses(expression: Exp) {
@@ -41,9 +45,15 @@ fun evaluateSealedClasses(expression: Expression) {
         is Expression.ConstantExpression -> println("This is statement Expression.ConstantExpression --->")
         is Expression.StatementExpression -> println("This is statement Expression.StatementExpression --->")
         is Expression.LoadingExpression -> println("This is loading status")
-        else -> println("something unknown value printed here")
     }
 }
 
+fun evaluateErrorState(errorState: ErrorState) {
+    when (errorState) {
+        is APIError -> println("This is for API error handling")
+        is DataBaseError -> println("This is for DataBaseError ---> ${errorState.dataError}")
+        is CommonError -> println("This is common error handling")
+    }
+}
 
 
