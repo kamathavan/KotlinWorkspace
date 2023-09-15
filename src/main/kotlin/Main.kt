@@ -1,35 +1,67 @@
+import HigerOrderFunctions.functionTypeFunction
 import SealedClasses.*
-import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.runBlocking
-import java.lang.IllegalStateException
 
-fun rollNumber(): Flow<Int> = (1..4).asFlow()
+fun printCalculateValue(value1: Int, value2: Int, calculate: (Int, Int) -> Int) {
+    val calculateValue = calculate(value1, value2)
+    println("Calculated value is-->$calculateValue")
+}
 
-fun names(): Flow<String> = flowOf("mathavan", "Ravi", "Vinoth")
+fun displayCustomerName(firstName: String, secondName: String, formatCustomerName: (String, String) -> String) {
+    println(formatCustomerName(firstName, secondName))
+}
 
-fun simple(): Flow<String> = flow {
-    for (i in 1..10) {
-        emit("Hello world $i")
-    }
+val fancyFormatter: (String, String) -> String = { firstName, secondName ->
+    "Hello Mr $firstName $secondName "
+}
+
+val basicFormatter: (String, String) -> String = { first, last ->
+    "First name $first  Second name $last"
 }
 
 fun main() = runBlocking<Unit> {
 
-    evaluateNormalClasses(ConstValueExp(5))
-    evaluateNormalClasses(Sum(4, 5))
-    //evaluateNormalClasses(Exp())
+    displayCustomerName(
+        firstName = "mathavan",
+        secondName = "Kaliyaperumal",
+        formatCustomerName = basicFormatter
+    )
 
-    println("Evaluate sealed classed")
-    evaluateSealedClasses(Expression.ConstantExpression("This is constant expression"))
-    evaluateSealedClasses(Expression.StatementExpression("This is constant expression"))
-    evaluateSealedClasses(Expression.LoadingExpression)
+    displayCustomerName(
+        firstName = "Mathavan",
+        secondName = "Madhavi",
+        formatCustomerName = fancyFormatter
+    )
 
-    println("Evaluate sealed classed for Error state classes")
+    displayCustomerName(
+        firstName = "Mathavan",
+        secondName = "Madhavi",
+        formatCustomerName = { husband, wifename ->
+            "This is family name $husband $wifename "
+        }
+    )
 
-    evaluateErrorState(CommonError)
-    evaluateErrorState(DataBaseError(dataError = 100))
-    evaluateErrorState(APIError(code = 101))
+    displayCustomerName(firstName = "Mathavan", secondName = "Madhavi") { husband, wifename ->
+        "This is family name $husband $wifename "
+    }
 
+    printCalculateValue(12, 23) { value1, value2 ->
+        value1 + value2
+    }
+
+    printCalculateValue(12, 23) { value1, value2 ->
+        value1 - value2
+    }
+
+    println(functionTypeFunction("Android"))
+// function invoke
+    println(functionTypeFunction.invoke("Kotlin World "))
+// update the value
+    functionTypeFunction = {
+        "This is $it"
+    }
+
+    println(functionTypeFunction("Mathavan world"))
 }
 
 fun evaluateNormalClasses(expression: Exp) {
