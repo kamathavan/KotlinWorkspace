@@ -1,14 +1,28 @@
-import HigerOrderFunctions.functionTypeFunction
 import SealedClasses.*
-import kotlinx.coroutines.runBlocking
 
-fun printCalculateValue(value1: Int, value2: Int, calculate: (Int, Int) -> Int) {
+fun displayArithmeticOperation(value1: Int, value2: Int, calculate: (Int, Int) -> Int) {
     val calculateValue = calculate(value1, value2)
     println("Calculated value is-->$calculateValue")
 }
 
 fun displayCustomerName(firstName: String, secondName: String, formatCustomerName: (String, String) -> String) {
     println(formatCustomerName(firstName, secondName))
+}
+
+val addition: (Int, Int) -> Int = { first, second ->
+    first + second
+}
+
+val subraction: (Int, Int) -> Int = { first, second ->
+    first - second
+}
+
+val multiply: (Int, Int) -> Int = { first, second ->
+    first * second
+}
+
+val division: (Int, Int) -> Int = { first, second ->
+    first / second
 }
 
 val fancyFormatter: (String, String) -> String = { firstName, secondName ->
@@ -19,8 +33,22 @@ val basicFormatter: (String, String) -> String = { first, last ->
     "First name $first  Second name $last"
 }
 
-fun main() = runBlocking<Unit> {
+var displayFullName: (String, String) -> Unit = { first, second ->
+    println("Full name is : $first $second")
+}
 
+fun main() {
+
+    displayFullName("Kaliyaperumal", "Kanagavali")
+    displayFullName.invoke("AjithKumar", " Vikas")
+
+    displayFullName = { first, second -> println("Hello name- $first $second") }
+
+    displayFullName("Rajesh","Kumar")
+
+    println(multiply.invoke(12, 3))
+
+    println(fancyFormatter.invoke("MAthava", "MAdhavai"))
     displayCustomerName(
         firstName = "mathavan",
         secondName = "Kaliyaperumal",
@@ -45,23 +73,14 @@ fun main() = runBlocking<Unit> {
         "This is family name $husband $wifename "
     }
 
-    printCalculateValue(12, 23) { value1, value2 ->
-        value1 + value2
-    }
+    displayArithmeticOperation(12, 23, addition)
+    displayArithmeticOperation(12, 23, subraction)
+    displayArithmeticOperation(value1 = 45, value2 = 5, division)
+    displayArithmeticOperation(value1 = 12, value2 = 16, calculate = { first, second ->
+        second / first
+    })
 
-    printCalculateValue(12, 23) { value1, value2 ->
-        value1 - value2
-    }
 
-    println(functionTypeFunction("Android"))
-// function invoke
-    println(functionTypeFunction.invoke("Kotlin World "))
-// update the value
-    functionTypeFunction = {
-        "This is $it"
-    }
-
-    println(functionTypeFunction("Mathavan world"))
 }
 
 fun evaluateNormalClasses(expression: Exp) {
