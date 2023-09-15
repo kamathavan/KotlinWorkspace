@@ -44,7 +44,7 @@ fun main() {
 
     displayFullName = { first, second -> println("Hello name- $first $second") }
 
-    displayFullName("Rajesh","Kumar")
+    displayFullName("Rajesh", "Kumar")
 
     println(multiply.invoke(12, 3))
 
@@ -73,7 +73,7 @@ fun main() {
         "This is family name $husband $wifename "
     }
 
-    displayArithmeticOperation(12, 23, addition)
+    displayArithmeticOperation(value1 = 12, value2 = 23, addition)
     displayArithmeticOperation(12, 23, subraction)
     displayArithmeticOperation(value1 = 45, value2 = 5, division)
     displayArithmeticOperation(value1 = 12, value2 = 16, calculate = { first, second ->
